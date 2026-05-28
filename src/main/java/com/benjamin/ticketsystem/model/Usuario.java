@@ -12,7 +12,7 @@ public class Usuario{
     private long id;
 
     @Column(nullable = false)
-    private String name;
+    private String nombre;
 
     @Column(nullable = false)
     private String apellido;

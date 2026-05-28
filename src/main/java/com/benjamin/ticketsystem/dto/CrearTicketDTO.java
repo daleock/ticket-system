@@ -6,6 +6,7 @@ public class CrearTicketDTO {
     private String descripcion;
     private Long categoriaId;
     private Long prioridadId;
+    private Long usuarioId;
     
     public String getTitulo(){
         return titulo;
@@ -30,5 +31,11 @@ public class CrearTicketDTO {
     }
     public void setPrioridad(Long prioridadId){
         this.prioridadId = prioridadId;
+    }
+    public Long getUsuarioId(){
+        return usuarioId;
+    }
+    public void setUsuarioId(Long usuarioId){
+        this.usuarioId = usuarioId;
     }
 }

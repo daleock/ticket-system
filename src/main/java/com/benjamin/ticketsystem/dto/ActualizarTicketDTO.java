@@ -6,6 +6,8 @@ public class ActualizarTicketDTO {
     private String descripcion;
     private Long categoriaId;
     private Long prioridadId;
+    private Long estadoId;
+    
 
     public String getTitulo(){
         return titulo;
@@ -28,8 +30,13 @@ public class ActualizarTicketDTO {
     public Long getPrioridadId(){
         return prioridadId;
     }
-    public void setPrioridad(Long prioridadId){
+    public void setPrioridadId(Long prioridadId){
         this.prioridadId = prioridadId;
     }
-    
+    public Long getEstadoId(){
+        return estadoId;
+    }
+    public void setEstadoId(Long estadoId){
+        this.estadoId = estadoId;
+    }
 }

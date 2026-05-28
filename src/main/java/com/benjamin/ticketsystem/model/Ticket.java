@@ -26,7 +26,7 @@ public class Ticket {
     private Prioridad prioridad;
 
     @ManyToOne
-    @JoinColumn(name = "categoria_id", nullable = false)
+    @JoinColumn(name = "categoria_id", nullable = true)
     private Categoria categoria;
 
     @ManyToOne

@@ -8,6 +8,7 @@ import java.time.LocalDateTime;
 
 public class HistorialTicket{
 
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
