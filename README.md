@@ -55,11 +55,19 @@ Database Layer
 * Repositories con Spring Data JPA
 * Implementación de DTOs
 * Mappers para transformación de datos
-* Capa Service para lógica de negocio
-* Gestión de estados de ticket mediante catálogos
-* Gestión de prioridades y categorías
-* Configuración de Hibernate con validación de esquema
-* Estructura profesional del proyecto
+* Capa Service con lógica de negocio
+* Capa Controller con API REST
+* Implementación completa del CRUD de tickets
+  - Crear tickets (POST /tickets)
+  - Listar tickets (GET /tickets)
+  - Ver ticket por ID (GET /tickets/{id})
+  - Actualizar tickets (PUT /tickets/{id})
+  - Eliminar tickets (DELETE /tickets/{id})
+* Gestión de estados de ticket mediante catálogo (estado_ticket)
+* Gestión de prioridades y categorías relacionadas a tickets
+* Relación entre Ticket, Usuario, Categoría, Prioridad y Estado
+* Persistencia con Spring Data JPA + MySQL
+* Pruebas de endpoints realizadas con Postman
 
 # Funcionalidades en Desarrollo
 
