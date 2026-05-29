@@ -3,6 +3,7 @@ package com.benjamin.ticketsystem.service.impl;
 import com.benjamin.ticketsystem.dto.ActualizarTicketDTO;
 import com.benjamin.ticketsystem.dto.CrearTicketDTO;
 import com.benjamin.ticketsystem.dto.TicketResponseDTO;
+import com.benjamin.ticketsystem.exception.ResourceNotFoundException;
 import com.benjamin.ticketsystem.mapper.TicketMapper;
 import com.benjamin.ticketsystem.model.*;
 import com.benjamin.ticketsystem.repository.*;
@@ -44,16 +45,16 @@ public class TicketServiceImpl implements TicketService {
     public TicketResponseDTO crearTicket(CrearTicketDTO dto) {
 
         Categoria categoria = categoriaRepository.findById(dto.getCategoriaId())
-                .orElseThrow(() -> new RuntimeException("Categoria no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Categoria no encontrada"));
 
         Prioridad prioridad = prioridadRepository.findById(dto.getPrioridadId())
-                .orElseThrow(() -> new RuntimeException("Prioridad no encontrada"));
+                .orElseThrow(() -> new ResourceNotFoundException("Prioridad no encontrada"));
 
         EstadoTicket estado = estadoTicketRepository.findByNombre("Abierto")
-                .orElseThrow(() -> new RuntimeException("Estado inicial no configurado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Estado inicial no configurado"));
 
         Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
-                .orElseThrow(() -> new RuntimeException("Usuario no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado"));
 
         Ticket ticket = new Ticket();
         ticket.setTitulo(dto.getTitulo());
@@ -85,7 +86,7 @@ public class TicketServiceImpl implements TicketService {
     public TicketResponseDTO obtenerPorId(Long id) {
 
         Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket no encontrado"));
 
         return ticketMapper.toResponse(ticket);
     }
@@ -96,7 +97,7 @@ public class TicketServiceImpl implements TicketService {
     public TicketResponseDTO actualizarTicket(Long id, ActualizarTicketDTO dto) {
 
         Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket no encontrado"));
 
         if (dto.getTitulo() != null) {
             ticket.setTitulo(dto.getTitulo());
@@ -108,13 +109,13 @@ public class TicketServiceImpl implements TicketService {
 
         if (dto.getPrioridadId() != null) {
             Prioridad prioridad = prioridadRepository.findById(dto.getPrioridadId())
-                    .orElseThrow(() -> new RuntimeException("Prioridad no encontrada"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Prioridad no encontrada"));
             ticket.setPrioridad(prioridad);
         }
 
         if (dto.getEstadoId() != null) {
             EstadoTicket estado = estadoTicketRepository.findById(dto.getEstadoId())
-                    .orElseThrow(() -> new RuntimeException("Estado no encontrado"));
+                    .orElseThrow(() -> new ResourceNotFoundException("Estado no encontrado"));
             ticket.setEstado(estado);
         }
 
@@ -128,7 +129,7 @@ public class TicketServiceImpl implements TicketService {
     @Override
         public void eliminarTicket(Long id) {
         Ticket ticket = ticketRepository.findById(id)
-            .orElseThrow(() -> new RuntimeException("Ticket no encontrado"));
+            .orElseThrow(() -> new ResourceNotFoundException("Ticket no encontrado"));
 
         ticketRepository.delete(ticket);
 }
