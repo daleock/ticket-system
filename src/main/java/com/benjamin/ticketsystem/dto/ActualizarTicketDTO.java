@@ -1,5 +1,6 @@
 package com.benjamin.ticketsystem.dto;
 
+
 public class ActualizarTicketDTO {
 
     private String titulo;
@@ -7,6 +8,7 @@ public class ActualizarTicketDTO {
     private Long categoriaId;
     private Long prioridadId;
     private Long estadoId;
+    private Long usuarioId;
     
 
     public String getTitulo(){
@@ -24,7 +26,7 @@ public class ActualizarTicketDTO {
     public Long getCategoriaId(){
         return categoriaId;
     }
-    public void setCategoriaId(long categoriaId){
+    public void setCategoriaId(Long categoriaId){
         this.categoriaId = categoriaId;
     }
     public Long getPrioridadId(){
@@ -38,5 +40,11 @@ public class ActualizarTicketDTO {
     }
     public void setEstadoId(Long estadoId){
         this.estadoId = estadoId;
+    }
+    public Long getUsuarioId(){
+        return usuarioId;
+    }
+    public void setUsuarioId(Long usuarioId){
+        this.usuarioId = usuarioId;
     }
 }

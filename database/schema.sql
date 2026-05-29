@@ -97,6 +97,8 @@ CREATE TABLE historial_ticket (
 
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 
+    campo VARCHAR(50),
+
     CONSTRAINT fk_historial_ticket
         FOREIGN KEY (ticket_id)
         REFERENCES ticket(id),

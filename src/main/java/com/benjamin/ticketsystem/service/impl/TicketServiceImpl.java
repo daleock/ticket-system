@@ -9,7 +9,7 @@ import com.benjamin.ticketsystem.model.*;
 import com.benjamin.ticketsystem.repository.*;
 import com.benjamin.ticketsystem.service.TicketService;
 import org.springframework.stereotype.Service;
-
+import com.benjamin.ticketsystem.service.HistorialTicketService;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -22,6 +22,7 @@ public class TicketServiceImpl implements TicketService {
     private final EstadoTicketRepository estadoTicketRepository;
     private final TicketMapper ticketMapper;
     private final UsuarioRepository usuarioRepository;
+    private final HistorialTicketService historialTicketService;
 
     public TicketServiceImpl(
             TicketRepository ticketRepository,
@@ -29,7 +30,8 @@ public class TicketServiceImpl implements TicketService {
             PrioridadRepository prioridadRepository,
             EstadoTicketRepository estadoTicketRepository,
             TicketMapper ticketMapper,
-            UsuarioRepository usuarioRepository
+            UsuarioRepository usuarioRepository,
+            HistorialTicketService historialTicketService
     ) {
         this.ticketRepository = ticketRepository;
         this.categoriaRepository = categoriaRepository;
@@ -37,6 +39,7 @@ public class TicketServiceImpl implements TicketService {
         this.estadoTicketRepository = estadoTicketRepository;
         this.ticketMapper = ticketMapper;
         this.usuarioRepository = usuarioRepository;
+        this.historialTicketService = historialTicketService;
     }
 
     // CREAR TICKET
@@ -92,37 +95,48 @@ public class TicketServiceImpl implements TicketService {
     }
 
     // ACTUALIZAR TICKET
-  
     @Override
     public TicketResponseDTO actualizarTicket(Long id, ActualizarTicketDTO dto) {
 
         Ticket ticket = ticketRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Ticket no encontrado"));
-
+                .orElseThrow(() -> new ResourceNotFoundException("Ticket no encontrado" + id));
+        
+        Usuario usuario = usuarioRepository.findById(dto.getUsuarioId())
+                .orElseThrow(() -> new ResourceNotFoundException("Usuario no encontrado con ID: " + dto.getUsuarioId()));
+                
         if (dto.getTitulo() != null) {
-            ticket.setTitulo(dto.getTitulo());
+            String anterior = ticket.getTitulo();
+            String nuevo = dto.getTitulo();
+            ticket.setTitulo(nuevo);
+            historialTicketService.registrarCambio(ticket, usuario, "titulo", anterior, nuevo);
         }
-
         if (dto.getDescripcion() != null) {
-            ticket.setDescripcion(dto.getDescripcion());
+            String anterior = ticket.getDescripcion();
+            String nuevo = dto.getDescripcion();
+            ticket.setDescripcion(nuevo);
+            historialTicketService.registrarCambio(ticket, usuario,  " Descripcion", anterior, anterior);
         }
 
         if (dto.getPrioridadId() != null) {
+            String anterior = ticket.getPrioridad().getNombre();
             Prioridad prioridad = prioridadRepository.findById(dto.getPrioridadId())
                     .orElseThrow(() -> new ResourceNotFoundException("Prioridad no encontrada"));
             ticket.setPrioridad(prioridad);
+            String nuevo = prioridad.getNombre();
+            historialTicketService.registrarCambio(ticket, usuario, "Prioridad", anterior, nuevo);
         }
 
         if (dto.getEstadoId() != null) {
+            String anterior = ticket.getEstado().getNombre();
             EstadoTicket estado = estadoTicketRepository.findById(dto.getEstadoId())
                     .orElseThrow(() -> new ResourceNotFoundException("Estado no encontrado"));
             ticket.setEstado(estado);
+            String nuevo = estado.getNombre();
+            historialTicketService.registrarCambio(ticket, usuario, "estado", anterior, nuevo);
         }
 
         ticket.setUpdatedAt(LocalDateTime.now());
-
         Ticket updated = ticketRepository.save(ticket);
-
         return ticketMapper.toResponse(updated);
     }
 
