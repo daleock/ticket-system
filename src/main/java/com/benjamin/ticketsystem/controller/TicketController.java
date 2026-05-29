@@ -7,6 +7,8 @@ import com.benjamin.ticketsystem.dto.CrearTicketDTO;
 import com.benjamin.ticketsystem.dto.TicketResponseDTO;
 import com.benjamin.ticketsystem.service.TicketService;
 
+import jakarta.validation.Valid;
+
 import java.util.List;
 
 @RestController
@@ -20,10 +22,9 @@ public class TicketController {
     }
 
     @PostMapping
-    public TicketResponseDTO crearTicket(@RequestBody CrearTicketDTO dto){
+    public TicketResponseDTO crearTicket(@Valid @RequestBody CrearTicketDTO dto){
         return ticketService.crearTicket(dto);
     }
-
     @GetMapping
     public List<TicketResponseDTO> listarTickets() {
         return ticketService.listarTickets();
